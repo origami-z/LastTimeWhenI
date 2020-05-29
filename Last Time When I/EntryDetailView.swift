@@ -11,7 +11,7 @@ import SwiftUI
 struct EntryDetailView: View {
     @Environment(\.managedObjectContext) var viewContext
     
-    @ObservedObject var entry: Entry
+    var entry: Entry
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -39,7 +39,7 @@ struct EntryDetailHistoryListView: View {
     
     @Environment(\.managedObjectContext) var viewContext
     
-    @ObservedObject var entry: Entry
+    var entry: Entry
     
     var eventsFetchRequest: FetchRequest<Event>
     var events: FetchedResults<Event> { eventsFetchRequest.wrappedValue }

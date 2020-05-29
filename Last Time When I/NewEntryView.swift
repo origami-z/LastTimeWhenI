@@ -56,23 +56,27 @@ struct NewEntryView: View {
                 Button(action: {
                     self.showCaptureImageView.toggle()
                 }) {
-                    Text("Choose photos")
+                    VStack {
+                        Text("Choose photos")
+                        imageToDisplay?.resizable()
+                            .renderingMode(.original)
+                            .frame(width: 250, height: 250)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                            .shadow(radius: 10)
+                    }
                 }
-                imageToDisplay?.resizable()
-                    .frame(width: 250, height: 250)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                    .shadow(radius: 10)
+                
                 
             }
             .navigationBarItems(
-//                                leading: EditButton()
-                                trailing: Button(
-                                    action: saveEntryAndDismiss
-                                ) {
-                                    Image(systemName: "plus")
-                                }
-                            )
+                //                                leading: EditButton()
+                trailing: Button(
+                    action: saveEntryAndDismiss
+                ) {
+                    Image(systemName: "plus")
+                }
+            )
         }
             
         .sheet(isPresented: $showCaptureImageView) {
@@ -81,20 +85,12 @@ struct NewEntryView: View {
     }
     
     func saveEntryAndDismiss() {
-//        let newEvent = Event.create(in: self.viewContext, time: self.date)
         let newEvent = Event.init(context: self.viewContext)
         newEvent.timestamp = self.date
         
         let entryImage = self.image ?? UIImage(named: "Camera")!
         
         Entry.create(in: self.viewContext, name: self.name, image: entryImage.pngData()!, event: newEvent)
-//
-//        let entry = Entry.init(context: self.viewContext)
-//        entry.name = self.name
-//        entry.image = entryImage.pngData()
-//        entry.addToEvents(newEvent)
-//
-//        try? viewContext.save()
         
         self.presentationMode.wrappedValue.dismiss()
     }

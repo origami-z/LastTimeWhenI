@@ -20,8 +20,9 @@ extension Entry {
 
     @NSManaged public var image: Data?
     @NSManaged public var name: String?
-//    @NSManaged public var lastEventTimestamp: Date?
     @NSManaged public var events: NSSet?
+    
+    @NSManaged public var lastUpdateTime: Date?
 
     public var wrappedName: String {
         name ?? "Unknown name"
@@ -66,6 +67,7 @@ extension Entry {
         let newEntry = self.init(context: managedObjectContext)
         newEntry.name = name
         newEntry.image = image
+        newEntry.lastUpdateTime = Date()
         
         if event != nil {
             newEntry.addToEvents(event!)
@@ -85,6 +87,7 @@ extension Entry {
         let event = Event.init(context: managedObjectContext)
         event.timestamp = timestamp
         self.addToEvents(event)
+        self.lastUpdateTime = Date()
 //        self.lastEventTimestamp = timestamp
         
         do {
@@ -100,7 +103,10 @@ extension Entry {
 
 extension Collection where Element == Entry, Index == Int {
     func delete(at indices: IndexSet, from managedObjectContext: NSManagedObjectContext) {
-        indices.forEach { managedObjectContext.delete(self[$0]) }
+        
+        indices.forEach {
+            managedObjectContext.delete(self[$0])
+        }
  
         do {
             try managedObjectContext.save()

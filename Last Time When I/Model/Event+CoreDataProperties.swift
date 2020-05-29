@@ -55,7 +55,11 @@ extension Event {
 
 extension Collection where Element == Event, Index == Int {
     func delete(at indices: IndexSet, from managedObjectContext: NSManagedObjectContext) {
-        indices.forEach { managedObjectContext.delete(self[$0]) }
+        
+        indices.forEach {
+            managedObjectContext.delete(self[$0])
+            self[$0].entry?.lastUpdateTime = Date()
+        }
  
         do {
             try managedObjectContext.save()

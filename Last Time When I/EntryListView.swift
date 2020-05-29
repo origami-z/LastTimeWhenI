@@ -41,7 +41,8 @@ struct EntryListView: View {
 struct MasterView: View {
     @FetchRequest(
         sortDescriptors: [
-            NSSortDescriptor(keyPath: \Entry.name, ascending: true),
+            NSSortDescriptor(keyPath: \Entry.lastUpdateTime, ascending: false),
+            NSSortDescriptor(keyPath: \Entry.name, ascending: true)
         ],
         animation: .default)
     var entries: FetchedResults<Entry>
