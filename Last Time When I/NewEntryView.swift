@@ -37,40 +37,31 @@ struct NewEntryView: View {
                     Section {
                         TextField("Name", text: $name)
                         
-                        //                        ForEach(entry.events.array as! [Event], id:\.self) { event in
-                        //
-                        //                        }
-                        
                         DatePicker(selection: $date, in: ...Date(), displayedComponents: .date) {
                             Text("Select a date")
                         }
                         
-                        //
-                        //                        Picker("Rating", selection: $rating) {
-                        //                            ForEach(ratings, id: \.self) { rating in
-                        //                                Text(rating)
-                        //                            }
-                        //                        }
+                        Button(action: {
+                            self.showCaptureImageView.toggle()
+                        }) {
+                            VStack(alignment: .center) {
+                                imageToDisplay?.resizable()
+                                    .renderingMode(.original)
+                                    .frame(width: 250, height: 250)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                    .shadow(radius: 10)
+                                Text("Choose photos")
+                            }
+                        }
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
                     }
                 }
-                Button(action: {
-                    self.showCaptureImageView.toggle()
-                }) {
-                    VStack {
-                        Text("Choose photos")
-                        imageToDisplay?.resizable()
-                            .renderingMode(.original)
-                            .frame(width: 250, height: 250)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                            .shadow(radius: 10)
-                    }
-                }
-                
-                
             }
             .navigationBarItems(
-                //                                leading: EditButton()
+                leading: Button(action: cancelAndDismiss) {
+                    Text("Cancel")
+                },
                 trailing: Button(
                     action: saveEntryAndDismiss
                 ) {
@@ -82,6 +73,10 @@ struct NewEntryView: View {
         .sheet(isPresented: $showCaptureImageView) {
             CaptureImageView(isShown: self.$showCaptureImageView, image: self.$image)
         }
+    }
+    
+    func cancelAndDismiss() {
+        self.presentationMode.wrappedValue.dismiss()
     }
     
     func saveEntryAndDismiss() {
