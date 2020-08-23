@@ -23,6 +23,7 @@
 		228D9773247C2A9C00BD3625 /* Entry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228D976F247C2A9C00BD3625 /* Entry+CoreDataProperties.swift */; };
 		228D9775247C30AF00BD3625 /* CaptureImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228D9774247C30AF00BD3625 /* CaptureImageView.swift */; };
 		228D9777247C30EB00BD3625 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228D9776247C30EB00BD3625 /* Coordinator.swift */; };
+		22DD92A124F2991B00E30012 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DD92A024F2991B00E30012 /* UIImage+.swift */; };
 		22FDCFA82481944900272703 /* EntryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FDCFA72481944900272703 /* EntryCellView.swift */; };
 		22FDCFAA2481997900272703 /* EntryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FDCFA92481997900272703 /* EntryDetailView.swift */; };
 /* End PBXBuildFile section */
@@ -45,7 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		228D972F247C226400BD3625 /* Last Time When I.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Last Time When I.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		228D972F247C226400BD3625 /* Last Time.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Last Time.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		228D9732247C226400BD3625 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		228D9735247C226400BD3625 /* Last_Time_When_I.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Last_Time_When_I.xcdatamodel; sourceTree = "<group>"; };
 		228D9737247C226400BD3625 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +68,7 @@
 		228D976F247C2A9C00BD3625 /* Entry+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		228D9774247C30AF00BD3625 /* CaptureImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureImageView.swift; sourceTree = "<group>"; };
 		228D9776247C30EB00BD3625 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		22DD92A024F2991B00E30012 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		22FDCFA72481944900272703 /* EntryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCellView.swift; sourceTree = "<group>"; };
 		22FDCFA92481997900272703 /* EntryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,7 +111,7 @@
 		228D9730247C226400BD3625 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				228D972F247C226400BD3625 /* Last Time When I.app */,
+				228D972F247C226400BD3625 /* Last Time.app */,
 				228D974A247C226500BD3625 /* Last Time When ITests.xctest */,
 				228D9755247C226500BD3625 /* Last Time When IUITests.xctest */,
 			);
@@ -128,6 +130,7 @@
 				228D976A247C274100BD3625 /* NewEntryView.swift */,
 				228D9774247C30AF00BD3625 /* CaptureImageView.swift */,
 				228D9776247C30EB00BD3625 /* Coordinator.swift */,
+				22DD92A024F2991B00E30012 /* UIImage+.swift */,
 				228D973D247C226500BD3625 /* Assets.xcassets */,
 				228D9742247C226500BD3625 /* LaunchScreen.storyboard */,
 				228D9745247C226500BD3625 /* Info.plist */,
@@ -191,7 +194,7 @@
 			);
 			name = "Last Time When I";
 			productName = "Last Time When I";
-			productReference = 228D972F247C226400BD3625 /* Last Time When I.app */;
+			productReference = 228D972F247C226400BD3625 /* Last Time.app */;
 			productType = "com.apple.product-type.application";
 		};
 		228D9749247C226500BD3625 /* Last Time When ITests */ = {
@@ -306,6 +309,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				228D9771247C2A9C00BD3625 /* Event+CoreDataProperties.swift in Sources */,
+				22DD92A124F2991B00E30012 /* UIImage+.swift in Sources */,
 				228D976B247C274100BD3625 /* NewEntryView.swift in Sources */,
 				228D9770247C2A9C00BD3625 /* Event+CoreDataClass.swift in Sources */,
 				228D9773247C2A9C00BD3625 /* Entry+CoreDataProperties.swift in Sources */,
@@ -492,7 +496,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.zhihaocui.ios.Last-Time-When-I";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Last Time";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -512,7 +516,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.zhihaocui.ios.Last-Time-When-I";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Last Time";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

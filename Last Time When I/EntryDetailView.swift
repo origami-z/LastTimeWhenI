@@ -17,10 +17,12 @@ struct EntryDetailView: View {
         VStack(alignment: .leading) {
             entry.wrappedImage
                 .resizable()
+                .aspectRatio(contentMode: .fit)
                 .frame(height: 200)
-                .scaledToFit()
+//                .scaledToFit()
                 .cornerRadius(8)
 //            Text("\(entry.wrappedName)")
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, alignment: .center)
             
             EntryDetailHistoryListView(entry: self.entry)
             
