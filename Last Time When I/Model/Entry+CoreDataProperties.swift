@@ -13,17 +13,17 @@ import SwiftUI
 
 
 extension Entry {
-
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Entry> {
         return NSFetchRequest<Entry>(entityName: "Entry")
     }
-
+    
     @NSManaged public var image: Data?
     @NSManaged public var name: String?
     @NSManaged public var events: NSSet?
     
     @NSManaged public var lastUpdateTime: Date?
-
+    
     public var wrappedName: String {
         name ?? "Unknown name"
     }
@@ -47,30 +47,31 @@ extension Entry {
 
 // MARK: Generated accessors for events
 extension Entry {
-
+    
     @objc(addEventsObject:)
     @NSManaged public func addToEvents(_ value: Event)
-
+    
     @objc(removeEventsObject:)
     @NSManaged public func removeFromEvents(_ value: Event)
-
+    
     @objc(addEvents:)
     @NSManaged public func addToEvents(_ values: NSSet)
-
+    
     @objc(removeEvents:)
     @NSManaged public func removeFromEvents(_ values: NSSet)
-
+    
 }
 
 extension Entry {
-    static func create(in managedObjectContext: NSManagedObjectContext, name: String, image: Data, event: Event? ){
+    static func create(in managedObjectContext: NSManagedObjectContext, name: String, image: Data, events: [Event]? ){
         let newEntry = self.init(context: managedObjectContext)
         newEntry.name = name
         newEntry.image = image
-        newEntry.lastUpdateTime = Date()
         
-        if event != nil {
-            newEntry.addToEvents(event!)
+        newEntry.lastUpdateTime = events?.first?.timestamp
+        
+        events?.forEach {
+            newEntry.addToEvents($0)
         }
         
         do {
@@ -88,7 +89,7 @@ extension Entry {
         event.timestamp = timestamp
         self.addToEvents(event)
         self.lastUpdateTime = Date()
-//        self.lastEventTimestamp = timestamp
+        //        self.lastEventTimestamp = timestamp
         
         do {
             try  managedObjectContext.save()
@@ -107,7 +108,7 @@ extension Collection where Element == Entry, Index == Int {
         indices.forEach {
             managedObjectContext.delete(self[$0])
         }
- 
+        
         do {
             try managedObjectContext.save()
         } catch {

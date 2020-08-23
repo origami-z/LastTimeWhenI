@@ -11,6 +11,8 @@ import SwiftUI
 struct EntryDetailView: View {
     @Environment(\.managedObjectContext) var viewContext
     
+    @State var showDuplicateView = false
+    
     var entry: Entry
     
     var body: some View {
@@ -19,15 +21,23 @@ struct EntryDetailView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 200)
-//                .scaledToFit()
+                //                .scaledToFit()
                 .cornerRadius(8)
-//            Text("\(entry.wrappedName)")
-            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, alignment: .center)
+                //            Text("\(entry.wrappedName)")
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, alignment: .center)
             
             EntryDetailHistoryListView(entry: self.entry)
             
             Spacer()
             
+            Button(action: {
+                self.showDuplicateView.toggle()
+            }) {
+                Text("Duplicate Entry")
+            }.sheet(isPresented: $showDuplicateView) {
+                DuplicateEntryView(sourceEntry: self.entry)
+                    .environment(\.managedObjectContext, self.viewContext)
+            }
         }
         .padding()
         .navigationBarTitle(
@@ -47,30 +57,30 @@ struct EntryDetailHistoryListView: View {
     var events: FetchedResults<Event> { eventsFetchRequest.wrappedValue }
     
     var body: some View {
-            List {
-                Section(header: HStack {
-                    Text("History")
+        List {
+            Section(header: HStack {
+                Text("History")
+                
+                Spacer()
+                
+                Button(
+                    action: {
+                        self.entry.newEvent(in: self.viewContext)
+                }
+                ) {
+                    Image(systemName: "plus")
+                }
+            }) {
+                ForEach(events, id: \.self) { event in
                     
-                    Spacer()
-
-                    Button(
-                        action: {
-                            self.entry.newEvent(in: self.viewContext)
-                    }
-                    ) {
-                        Image(systemName: "plus")
-                    }
-                }) {
-                    ForEach(events, id: \.self) { event in
-                        
-                        Text(event.formattedTimestamp)
-//                        Text("hellow")
-                        
-                    }.onDelete { indices in
-                        self.events.delete(at: indices, from: self.viewContext)
-                    }
+                    Text(event.formattedTimestamp)
+                    //                        Text("hellow")
+                    
+                }.onDelete { indices in
+                    self.events.delete(at: indices, from: self.viewContext)
                 }
             }
+        }
     }
     
     init(entry: Entry) {

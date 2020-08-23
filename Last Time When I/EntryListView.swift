@@ -73,7 +73,7 @@ struct ContentView_Previews: PreviewProvider {
         let event = Event.init(context: context)
         event.timestamp = Date()
         
-        Entry.create(in: context, name: "Hello World \(Int.random(in: 0..<10))", image: (UIImage(named: "Camera")?.pngData())!, event: event)
+        Entry.create(in: context, name: "Hello World \(Int.random(in: 0..<10))", image: (UIImage(named: "Camera")?.pngData())!, events: [event])
         
 //        let entry = Entry.init(context: context)
 //        entry.name = "Hello World \(Int.random(in: 0..<10))"

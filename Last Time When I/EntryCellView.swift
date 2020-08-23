@@ -23,6 +23,7 @@ struct EntryCellView: View {
             entry.wrappedImage
                 .resizable()
                 .frame(width: 80, height: 80)
+                .clipShape(Circle())
             
             VStack(alignment: .leading) {
                 Text(entry.wrappedName)
