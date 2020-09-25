@@ -37,8 +37,8 @@ struct NewEntryView: View {
                     Section {
                         TextField("Name", text: $name)
                         
-                        DatePicker(selection: $date, in: ...Date(), displayedComponents: .date) {
-                            Text("Select a date")
+                        DatePicker(selection: $date, in: ...Date(), displayedComponents: [.hourAndMinute, .date]) {
+                            Text("Time")
                         }
                         
                         Button(action: {
@@ -51,7 +51,7 @@ struct NewEntryView: View {
                                     .clipShape(Circle())
                                     .overlay(Circle().stroke(Color.white, lineWidth: 4))
                                     .shadow(radius: 10)
-                                Text("Choose photos")
+                                Text("Choose a picture")
                             }
                         }
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
