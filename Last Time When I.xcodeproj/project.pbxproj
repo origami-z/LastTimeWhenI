@@ -25,6 +25,7 @@
 		228D9777247C30EB00BD3625 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228D9776247C30EB00BD3625 /* Coordinator.swift */; };
 		22DD92A124F2991B00E30012 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DD92A024F2991B00E30012 /* UIImage+.swift */; };
 		22DD92A324F29CA700E30012 /* DuplicateEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DD92A224F29CA700E30012 /* DuplicateEntryView.swift */; };
+		22F787D1251EA63F00BFBAE6 /* TimeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F787D0251EA63F00BFBAE6 /* TimeEditorView.swift */; };
 		22FDCFA82481944900272703 /* EntryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FDCFA72481944900272703 /* EntryCellView.swift */; };
 		22FDCFAA2481997900272703 /* EntryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FDCFA92481997900272703 /* EntryDetailView.swift */; };
 /* End PBXBuildFile section */
@@ -71,6 +72,7 @@
 		228D9776247C30EB00BD3625 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		22DD92A024F2991B00E30012 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		22DD92A224F29CA700E30012 /* DuplicateEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateEntryView.swift; sourceTree = "<group>"; };
+		22F787D0251EA63F00BFBAE6 /* TimeEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEditorView.swift; sourceTree = "<group>"; };
 		22FDCFA72481944900272703 /* EntryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCellView.swift; sourceTree = "<group>"; };
 		22FDCFA92481997900272703 /* EntryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -128,6 +130,7 @@
 				228D9737247C226400BD3625 /* SceneDelegate.swift */,
 				228D973B247C226400BD3625 /* EntryListView.swift */,
 				22FDCFA92481997900272703 /* EntryDetailView.swift */,
+				22F787D0251EA63F00BFBAE6 /* TimeEditorView.swift */,
 				22FDCFA72481944900272703 /* EntryCellView.swift */,
 				228D976A247C274100BD3625 /* NewEntryView.swift */,
 				22DD92A224F29CA700E30012 /* DuplicateEntryView.swift */,
@@ -311,6 +314,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22F787D1251EA63F00BFBAE6 /* TimeEditorView.swift in Sources */,
 				228D9771247C2A9C00BD3625 /* Event+CoreDataProperties.swift in Sources */,
 				22DD92A124F2991B00E30012 /* UIImage+.swift in Sources */,
 				228D976B247C274100BD3625 /* NewEntryView.swift in Sources */,

@@ -56,6 +56,8 @@ struct EntryDetailHistoryListView: View {
     var eventsFetchRequest: FetchRequest<Event>
     var events: FetchedResults<Event> { eventsFetchRequest.wrappedValue }
     
+    @State var eventSelected: Event?
+    
     var body: some View {
         List {
             Section(header: HStack {
@@ -66,20 +68,24 @@ struct EntryDetailHistoryListView: View {
                 Button(
                     action: {
                         self.entry.newEvent(in: self.viewContext)
-                }
+                    }
                 ) {
                     Image(systemName: "plus")
                 }
             }) {
                 ForEach(events, id: \.self) { event in
-                    
                     Text(event.formattedTimestamp)
-                    //                        Text("hellow")
-                    
+                        .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+                            self.eventSelected = event
+                        })
                 }.onDelete { indices in
                     self.events.delete(at: indices, from: self.viewContext)
                 }
             }
+        }
+        .sheet(item: $eventSelected) { item in
+            TimeEditorView(event: item)
+                .environment(\.managedObjectContext, self.viewContext)
         }
     }
     
@@ -89,6 +95,37 @@ struct EntryDetailHistoryListView: View {
             entity: Event.entity(),
             sortDescriptors: [NSSortDescriptor(keyPath: \Event.timestamp, ascending: false)],
             predicate:  NSPredicate(format: "entry == %@", entry))
+    }
+}
+
+struct FooSheet: View {
+    @Binding var isSheetShown: Bool
+    init(isShown: Binding<Bool>) {
+        _isSheetShown = isShown
+    }
+    var body: some View {
+        
+        NavigationView {
+            Button(action: {
+                isSheetShown = false
+            }, label: {
+                Text("Hide Sheet")
+            })
+            .navigationBarTitle(Text("Update Time"), displayMode: .inline)
+            .navigationBarItems(
+                leading: Button(action: {
+                    print("Dismissing sheet view...")
+                    self.isSheetShown = false
+                }) {
+                    Text("Cancel").bold()
+                },
+                trailing: Button(action: {
+                    print("Dismissing sheet view...")
+                    self.isSheetShown = false
+                }) {
+                    Text("Done").bold()
+                })
+        }
     }
 }
 
@@ -117,6 +154,6 @@ struct EntryDetailView_Previews: PreviewProvider {
         
         return
             NavigationView {EntryDetailView(entry: entry)}
-                .environment(\.managedObjectContext, context)
+            .environment(\.managedObjectContext, context)
     }
 }

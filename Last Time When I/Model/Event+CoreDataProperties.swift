@@ -34,6 +34,19 @@ extension Event {
     public var formattedTimestamp: String {
         dateFormatter.string(from: wrappedTimestamp)
     }
+    
+    public func updateTime(in managedObjectContext: NSManagedObjectContext, to newTime: Date) {
+        self.timestamp = newTime
+        self.entry?.lastUpdateTime = Date()
+        do {
+            try managedObjectContext.save()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
 }
 
 extension Event {
@@ -51,6 +64,11 @@ extension Event {
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
+}
+
+// Needed for List().sheet()
+extension Event: Identifiable {
+    
 }
 
 extension Collection where Element == Event, Index == Int {
