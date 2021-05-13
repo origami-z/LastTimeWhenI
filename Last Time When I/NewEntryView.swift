@@ -45,8 +45,9 @@ struct NewEntryView: View {
                             self.showCaptureImageView.toggle()
                         }) {
                             VStack(alignment: .center) {
-                                imageToDisplay?.resizable()
-                                    .renderingMode(.original)
+                                imageToDisplay?
+                                    .resizable()
+                                    .squareImage()
                                     .frame(width: 250, height: 250)
                                     .clipShape(Circle())
                                     .overlay(Circle().stroke(Color.white, lineWidth: 4))

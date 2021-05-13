@@ -56,9 +56,9 @@ extension UIImage {
         ctx.concatenate(transform)
         
         if ( self.imageOrientation == UIImage.Orientation.left ||
-            self.imageOrientation == UIImage.Orientation.leftMirrored ||
-            self.imageOrientation == UIImage.Orientation.right ||
-            self.imageOrientation == UIImage.Orientation.rightMirrored ) {
+                self.imageOrientation == UIImage.Orientation.leftMirrored ||
+                self.imageOrientation == UIImage.Orientation.right ||
+                self.imageOrientation == UIImage.Orientation.rightMirrored ) {
             ctx.draw(self.cgImage!, in: CGRect(x: 0,y: 0,width: self.size.height,height: self.size.width))
         } else {
             ctx.draw(self.cgImage!, in: CGRect(x: 0,y: 0,width: self.size.width,height: self.size.height))
@@ -66,5 +66,20 @@ extension UIImage {
         
         // And now we just create a new UIImage from the drawing context and return it
         return UIImage(cgImage: ctx.makeImage()!)
+    }
+    
+    func cropsToSquare() -> UIImage {
+        let refWidth = CGFloat((self.cgImage!.width))
+        let refHeight = CGFloat((self.cgImage!.height))
+        let cropSize = refWidth > refHeight ? refHeight : refWidth
+        
+        let x = (refWidth - cropSize) / 2.0
+        let y = (refHeight - cropSize) / 2.0
+        
+        let cropRect = CGRect(x: x, y: y, width: cropSize, height: cropSize)
+        let imageRef = self.cgImage?.cropping(to: cropRect)
+        let cropped = UIImage(cgImage: imageRef!, scale: 0.0, orientation: self.imageOrientation)
+        
+        return cropped
     }
 }
