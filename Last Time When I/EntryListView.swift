@@ -69,9 +69,8 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
-//        let event = Event.create(in: context, time: Date())
         let event = Event.init(context: context)
-        event.timestamp = Date()
+        event.timestamp = Date().addingTimeInterval(TimeInterval(Int.random(in: -140000 ..< -3000)))
         
         Entry.create(in: context, name: "Hello World \(Int.random(in: 0..<10))", image: (UIImage(named: "Camera")?.pngData())!, events: [event])
         

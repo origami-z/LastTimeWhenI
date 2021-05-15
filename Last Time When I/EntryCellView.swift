@@ -8,13 +8,6 @@
 
 import SwiftUI
 
-//private let dateFormatter: DateFormatter = {
-//    let dateFormatter = DateFormatter()
-//    dateFormatter.dateStyle = .medium
-//    dateFormatter.timeStyle = .short
-//    return dateFormatter
-//}()
-
 struct EntryCellView: View {
     @ObservedObject var entry: Entry
 
@@ -28,8 +21,9 @@ struct EntryCellView: View {
             
             VStack(alignment: .leading) {
                 Text(entry.wrappedName)
+                    .font(.headline)
                 if (entry.sortedEvents.first != nil) {
-                    Text(entry.sortedEvents.first!.formattedTimestamp)
+                    Text(entry.sortedEvents.first!.relativeDateTime)
                 }
             }
         }
@@ -43,12 +37,10 @@ struct EntryCellView_Previews: PreviewProvider {
                 
         //        let event = Event.create(in: context, time: Date())
                 let event = Event.init(context: context)
-                event.timestamp = Date()
-                
-//                Entry.create(in: context, name: "Hello World \(Int.random(in: 0..<10))", image: (UIImage(named: "Camera")?.pngData())!, event: event)
+        event.timestamp = Date().addingTimeInterval(-15000)
                 
                 let entry = Entry.init(context: context)
-                entry.name = "Entry name \(Int.random(in: 1..<10))"
+                entry.name = "Entry name"
                 entry.image = (UIImage(named: "Camera")?.pngData())
                 entry.addToEvents(event)
                 
