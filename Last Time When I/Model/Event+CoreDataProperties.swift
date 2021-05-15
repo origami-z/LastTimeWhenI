@@ -17,6 +17,9 @@ private let dateFormatter: DateFormatter = {
     return dateFormatter
 }()
 
+
+private let relativeDateTimeFormatter = RelativeDateTimeFormatter()
+
 extension Event {
 
     // This throws error on SwiftUI preview: replaced function 'fetchRequest()' is not marked dynamic on XCode Version 11.5 (11E608c)
@@ -31,8 +34,16 @@ extension Event {
         timestamp ?? Date.init(timeIntervalSince1970: TimeInterval())
     }
     
+    /// Returns formatted time with medium date style and short time style
+    ///
+    /// e.g. `Jul 11, 2021 at 7:34 PM`
     public var formattedTimestamp: String {
         dateFormatter.string(from: wrappedTimestamp)
+    }
+    
+    /// Returns localized relative time, e.g. `x hours ago`
+    public var relativeDateTime: String {
+        relativeDateTimeFormatter.localizedString(for: wrappedTimestamp, relativeTo: Date())
     }
     
     public func updateTime(in managedObjectContext: NSManagedObjectContext, to newTime: Date) {
