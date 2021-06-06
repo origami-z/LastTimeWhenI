@@ -38,8 +38,8 @@ struct EntryDetailView: View {
                 DuplicateEntryView(sourceEntry: self.entry)
                     .environment(\.managedObjectContext, self.viewContext)
             }
+            .padding()
         }
-        .padding()
         .navigationBarTitle(
             Text(entry.wrappedName),
             displayMode: .inline
@@ -132,19 +132,12 @@ struct FooSheet: View {
 struct EntryDetailView_Previews: PreviewProvider {
     static var previews: some View {
         
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let context = PersistenceController.preview.container.viewContext
         
         let entry = Entry.init(context: context)
-        entry.name = "Entry name \(Int.random(in: 1..<10))"
-        entry.image = (UIImage(named: "Camera")?.pngData())
         
-        //        let event = Event.init(context: context)
-        //        event.timestamp = Date()
-        //        entry.addToEvents(event)
-        //
-        //        let event2 = Event.init(context: context)
-        //        event2.timestamp = Date() + 153 * 60 * 60
-        //        entry.addToEvents(event2)
+        entry.name = "Entry name 10"
+        entry.image = (UIImage(named: "Camera")?.pngData())
         
         for i in 0..<10 {
             let event = Event.init(context: context)
@@ -153,7 +146,6 @@ struct EntryDetailView_Previews: PreviewProvider {
         }
         
         return
-            NavigationView {EntryDetailView(entry: entry)}
-            .environment(\.managedObjectContext, context)
+            NavigationView {EntryDetailView(entry: entry)}.environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

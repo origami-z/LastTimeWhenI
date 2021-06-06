@@ -65,20 +65,8 @@ struct MasterView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct EntryListView_Previews: PreviewProvider {
     static var previews: some View {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        
-        let event = Event.init(context: context)
-        event.timestamp = Date().addingTimeInterval(TimeInterval(Int.random(in: -140000 ..< -3000)))
-        
-        Entry.create(in: context, name: "Hello World \(Int.random(in: 0..<10))", image: (UIImage(named: "Camera")?.pngData())!, events: [event])
-        
-//        let entry = Entry.init(context: context)
-//        entry.name = "Hello World \(Int.random(in: 0..<10))"
-//        entry.image = (UIImage(named: "Camera")?.pngData())
-//        entry.addToEvents(event)
-        
-        return EntryListView().environment(\.managedObjectContext, context)
+        EntryListView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
