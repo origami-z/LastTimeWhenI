@@ -48,7 +48,8 @@ extension Event {
     
     public func updateTime(in managedObjectContext: NSManagedObjectContext, to newTime: Date) {
         self.timestamp = newTime
-        self.entry?.lastUpdateTime = Date()
+        self.entry?.lastUpdateTime = self.entry?.sortedEvents.first?.timestamp
+
         do {
             try managedObjectContext.save()
         } catch {

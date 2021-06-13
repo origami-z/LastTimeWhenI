@@ -96,10 +96,13 @@ struct MasterView: View {
                     }
                     .tint(.blue)
                 }
-            }
-            // Only enabled in Edit mode
-            .onDelete { indices in
-                self.entries.delete(at: indices, from: self.viewContext)
+                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                    Button(role: .destructive) {
+                        delete(entry: entry)
+                    } label: {
+                        Text("Delete")
+                    }
+                }
             }
         }
         .searchable(text: query)
@@ -121,7 +124,9 @@ struct MasterView: View {
     }
     
     private func delete(entry: Entry) {
-        
+        withAnimation {
+            entry.delete(in: self.viewContext)
+        }
     }
     
     struct SelectedSort: Equatable {
