@@ -22,11 +22,11 @@ struct TimeEditorView: View {
     
     var event: Event
     
-    @State private var date = Date()
+    @State private var date : Date
     
     init(event: Event) {
         self.event = event
-        self.date = event.wrappedTimestamp
+        self._date = State(initialValue: event.wrappedTimestamp)
     }
     
     var body: some View {
