@@ -98,37 +98,6 @@ struct EntryDetailHistoryListView: View {
     }
 }
 
-struct FooSheet: View {
-    @Binding var isSheetShown: Bool
-    init(isShown: Binding<Bool>) {
-        _isSheetShown = isShown
-    }
-    var body: some View {
-        
-        NavigationView {
-            Button(action: {
-                isSheetShown = false
-            }, label: {
-                Text("Hide Sheet")
-            })
-            .navigationBarTitle(Text("Update Time"), displayMode: .inline)
-            .navigationBarItems(
-                leading: Button(action: {
-                    print("Dismissing sheet view...")
-                    self.isSheetShown = false
-                }) {
-                    Text("Cancel").bold()
-                },
-                trailing: Button(action: {
-                    print("Dismissing sheet view...")
-                    self.isSheetShown = false
-                }) {
-                    Text("Done").bold()
-                })
-        }
-    }
-}
-
 struct EntryDetailView_Previews: PreviewProvider {
     static var previews: some View {
         
