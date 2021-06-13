@@ -63,6 +63,19 @@ struct MasterView: View {
     
     @State private var selectedSort = SelectedSort()
     
+
+    @State private var searchText = ""
+    var query: Binding<String> {
+        Binding {
+            searchText
+        } set: { newValue in
+            searchText = newValue
+            entries.nsPredicate = newValue.isEmpty
+                               ? nil
+                               : NSPredicate(format: "name CONTAINS %@", newValue)
+        }
+    }
+    
     @Environment(\.managedObjectContext)
     var viewContext
     
@@ -73,11 +86,23 @@ struct MasterView: View {
                     destination: EntryDetailView(entry: entry)
                 ) {
                     EntryCellView(entry: entry)
+                }.swipeActions(edge: .leading, allowsFullSwipe: true) {
+                    Button {
+                        addEventNow(for: entry)
+                    } label: {
+                        Image(systemName: "plus.square.on.square")
+                            .accessibility(label: Text("Add Event Now"))
+                        
+                    }
+                    .tint(.blue)
                 }
-            }.onDelete { indices in
+            }
+            // Only enabled in Edit mode
+            .onDelete { indices in
                 self.entries.delete(at: indices, from: self.viewContext)
             }
         }
+        .searchable(text: query)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 SortMenu(selection: $selectedSort)
@@ -87,6 +112,16 @@ struct MasterView: View {
                 }
             }
         }
+    }
+    
+    private func addEventNow(for entry: Entry) {
+        withAnimation {
+            entry.newEvent(in: self.viewContext)
+        }
+    }
+    
+    private func delete(entry: Entry) {
+        
     }
     
     struct SelectedSort: Equatable {
