@@ -9,18 +9,24 @@
 import SwiftUI
 import CoreData
 
-struct DuplicateEntryView : View {
+struct EditEntryView : View {
     @Environment(\.managedObjectContext) var viewContext
     @Environment(\.presentationMode) var presentationMode
     
     var sourceEntry: Entry
     
-    @State var name: String = ""
+    @State var name: String
     @State var showCaptureImageView: Bool = false
-    @State var image: UIImage? = nil
+    @State var image: UIImage?
     
     var imageToDisplay: Image? {
         image == nil ? Image("Camera") : Image(uiImage: image!)
+    }
+    
+    init(entry: Entry) {
+        self.sourceEntry = entry
+        self._name = State(initialValue: entry.name ?? "New Entry")
+        self._image = State(initialValue: entry.image != nil ? UIImage(data: entry.image!) : nil)
     }
     
     var body: some View {
@@ -50,9 +56,9 @@ struct DuplicateEntryView : View {
                     Text("Cancel")
                 },
                 trailing: Button(
-                    action: saveEntryAndDismiss
+                    action: updateEntryAndDismiss
                 ) {
-                    Image(systemName: "plus")
+                    Text("Done")
                 }
             )
         }
@@ -65,16 +71,8 @@ struct DuplicateEntryView : View {
         self.presentationMode.wrappedValue.dismiss()
     }
     
-    func saveEntryAndDismiss() {
-        let duplicatedEvents: [Event] = sourceEntry.sortedEvents.map{ event in
-            let newEvent = Event.init(context: self.viewContext)
-            newEvent.timestamp = event.timestamp
-            return newEvent
-        }
-        
-        let entryImage = self.image ?? UIImage(named: "Camera")!
-        
-        Entry.create(in: self.viewContext, name: self.name, image: entryImage.pngData()!, events: duplicatedEvents)
+    func updateEntryAndDismiss() {
+        sourceEntry.update(name: self.name, image: self.image!, in: self.viewContext)
         
         self.presentationMode.wrappedValue.dismiss()
     }

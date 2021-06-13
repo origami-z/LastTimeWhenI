@@ -11,7 +11,7 @@ import SwiftUI
 struct EntryDetailView: View {
     @Environment(\.managedObjectContext) var viewContext
     
-    @State var showDuplicateView = false
+    @State var showEditView = false
     
     var entry: Entry
     
@@ -31,11 +31,11 @@ struct EntryDetailView: View {
             Spacer()
             
             Button(action: {
-                self.showDuplicateView.toggle()
+                self.showEditView.toggle()
             }) {
-                Text("Duplicate Entry")
-            }.sheet(isPresented: $showDuplicateView) {
-                DuplicateEntryView(sourceEntry: self.entry)
+                Text("Edit Entry")
+            }.sheet(isPresented: $showEditView) {
+                EditEntryView(entry: self.entry)
                     .environment(\.managedObjectContext, self.viewContext)
             }
             .padding()

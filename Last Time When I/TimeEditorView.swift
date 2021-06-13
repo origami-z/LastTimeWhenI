@@ -22,7 +22,12 @@ struct TimeEditorView: View {
     
     var event: Event
     
-    @State private var date = Date()    
+    @State private var date = Date()
+    
+    init(event: Event) {
+        self.event = event
+        self.date = event.wrappedTimestamp
+    }
     
     var body: some View {
         
@@ -30,42 +35,30 @@ struct TimeEditorView: View {
             VStack {
                 Form {
                     Section {
-                        if #available(iOS 14.0, *) {
-                            DatePicker(selection: $date, in: ...Date(), displayedComponents: [.hourAndMinute, .date]) {
-                                Text("Time")
-                            }
-                            .datePickerStyle(GraphicalDatePickerStyle())
-                        } else {
-                            DatePicker(selection: $date, in: ...Date(), displayedComponents: [.hourAndMinute, .date]) {
-                                Text("Time")
-                            }
-                            .datePickerStyle(WheelDatePickerStyle())
+                        DatePicker(selection: $date, in: ...Date(), displayedComponents: [.hourAndMinute, .date]) {
+                            Text("Time")
                         }
+                        .datePickerStyle(GraphicalDatePickerStyle())
                     }
                 }
             }
             .navigationBarTitle(Text("Update Time"), displayMode: .inline)
             .navigationBarItems(
                 leading: Button(action: {
-                    print("Dismissing sheet view...")
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text("Cancel").bold()
-                },
+                print("Dismissing sheet view...")
+                self.presentationMode.wrappedValue.dismiss()
+            }) {
+                Text("Cancel").bold()
+            },
                 trailing: Button(action: {
-                    print("Dismissing sheet view...")
-                    //                    self.isSheetShown = false
-                    self.event.updateTime(in: self.viewContext, to: self.date)
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text("Done").bold()
-                })
+                print("Dismissing sheet view...")
+                //                    self.isSheetShown = false
+                self.event.updateTime(in: self.viewContext, to: self.date)
+                self.presentationMode.wrappedValue.dismiss()
+            }) {
+                Text("Done").bold()
+            })
         }
-    }
-    
-    init(event: Event) {
-        self.event = event
-        self.date = event.wrappedTimestamp
     }
 }
 
