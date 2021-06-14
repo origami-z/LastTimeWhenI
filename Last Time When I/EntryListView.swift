@@ -16,18 +16,19 @@ struct EntryListView: View {
     var body: some View {
         NavigationView {
             MasterView()
-                .navigationBarTitle(Text("Last Time"))
-                .navigationBarItems(
-                    leading: EditButton(),
-                    trailing: Button(
-                        action: {
-                    //                            withAnimation { Event.create(in: self.viewContext) }
-                    self.showingNewEntry.toggle()
+                .navigationTitle(Text("Last Time"))
+                .navigationBarTitleDisplayMode(.large)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(
+                            action: {
+                            self.showingNewEntry.toggle()
+                        }
+                        ) {
+                            Image(systemName: "plus")
+                        }
+                    }
                 }
-                    ) {
-                    Image(systemName: "plus")
-                }
-                )
             Text("Detail view content goes here")
                 .navigationBarTitle(Text("Detail"))
         }
@@ -44,13 +45,13 @@ private let sorts = [(
 ), (
     name: "Update Time",
     descriptors: [SortDescriptor(\Entry.lastUpdateTime, order: .forward)]
+),  (
+    name: "Name",
+    descriptors: [SortDescriptor(\Entry.name, order: .forward)]
 ), (
     name: "Name",
     descriptors: [SortDescriptor(\Entry.name, order: .reverse)]
-), (
-    name: "Name",
-    descriptors: [SortDescriptor(\Entry.name, order: .forward)]
-)]
+),]
 
 struct MasterView: View {
     @FetchRequest(
@@ -63,7 +64,7 @@ struct MasterView: View {
     
     @State private var selectedSort = SelectedSort()
     
-
+    
     @State private var searchText = ""
     var query: Binding<String> {
         Binding {
@@ -71,8 +72,8 @@ struct MasterView: View {
         } set: { newValue in
             searchText = newValue
             entries.nsPredicate = newValue.isEmpty
-                               ? nil
-                               : NSPredicate(format: "name CONTAINS %@", newValue)
+            ? nil
+            : NSPredicate(format: "name CONTAINS %@", newValue)
         }
     }
     
@@ -107,12 +108,12 @@ struct MasterView: View {
         }
         .searchable(text: query)
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
+            ToolbarItem(placement: .navigationBarLeading) {
                 SortMenu(selection: $selectedSort)
-                .onChange(of: selectedSort) { _ in
-                    let sortBy = sorts[selectedSort.index]
-                    entries.sortDescriptors = sortBy.descriptors
-                }
+                    .onChange(of: selectedSort) { _ in
+                        let sortBy = sorts[selectedSort.index]
+                        entries.sortDescriptors = sortBy.descriptors
+                    }
             }
         }
     }
@@ -167,7 +168,7 @@ struct MasterView: View {
             case "Update Time":
                 return ["Newest on Top", "Oldest on Top"]
             case "Name":
-                return ["Z-A", "A-Z"]
+                return [ "A-Z", "Z-A"]
             default:
                 return []
             }

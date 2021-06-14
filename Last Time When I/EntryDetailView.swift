@@ -10,8 +10,7 @@ import SwiftUI
 
 struct EntryDetailView: View {
     @Environment(\.managedObjectContext) var viewContext
-    
-    @State var showEditView = false
+    @Environment(\.editMode) var editMode
     
     @ObservedObject var entry: Entry
     
@@ -21,28 +20,29 @@ struct EntryDetailView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 200)
-                //                .scaledToFit()
                 .cornerRadius(8)
-                //            Text("\(entry.wrappedName)")
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, alignment: .center)
             
             EntryDetailHistoryListView(entry: self.entry)
-            
-            Spacer()
-            
-            Button(action: {
-                self.showEditView.toggle()
-            }) {
-                Text("Edit Entry")
-            }.sheet(isPresented: $showEditView) {
-                EditEntryView(entry: self.entry)
-                    .environment(\.managedObjectContext, self.viewContext)
-            }
-            .padding()
+                .environment(\.editMode, Binding.constant(.inactive))
         }
-        .navigationBarTitle(
-            Text(entry.wrappedName),
-            displayMode: .inline
+        .navigationTitle(Text(entry.wrappedName))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                 EditButton()
+            }
+        }
+        .sheet(isPresented: show(editMode)) {
+            EditEntryView(entry: self.entry)
+                .environment(\.managedObjectContext, self.viewContext)
+        }
+    }
+    
+    func show(_ value: Binding<EditMode>?) -> Binding<Bool> {
+        Binding<Bool>(
+            get: { value?.wrappedValue == .active  },
+            set: { value?.wrappedValue = $0 ? .active : .inactive }
         )
     }
 }
@@ -67,8 +67,8 @@ struct EntryDetailHistoryListView: View {
                 
                 Button(
                     action: {
-                        self.entry.newEvent(in: self.viewContext)
-                    }
+                    self.entry.newEvent(in: self.viewContext)
+                }
                 ) {
                     Image(systemName: "plus")
                 }
@@ -114,7 +114,6 @@ struct EntryDetailView_Previews: PreviewProvider {
             entry.addToEvents(event)
         }
         
-        return
-            NavigationView {EntryDetailView(entry: entry)}.environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        return NavigationView {EntryDetailView(entry: entry)}.environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
