@@ -17,7 +17,7 @@ struct NewEntryView: View {
     @State private var date = Date()
     
     @State var name: String = ""
-    @State var showCaptureImageView: Bool = false
+    @State var showImagePicker: Bool = false
     @State var image: UIImage? = nil
     
     var imageToDisplay: Image? {
@@ -42,7 +42,7 @@ struct NewEntryView: View {
                         }
                         
                         Button(action: {
-                            self.showCaptureImageView.toggle()
+                            self.showImagePicker.toggle()
                         }) {
                             VStack(alignment: .center) {
                                 imageToDisplay?
@@ -71,8 +71,8 @@ struct NewEntryView: View {
             )
         }
             
-        .sheet(isPresented: $showCaptureImageView) {
-            CaptureImageView(isShown: self.$showCaptureImageView, image: self.$image)
+        .sheet(isPresented: $showImagePicker) {
+            ImagePicker(image: self.$image, sourceType: .photoLibrary)
         }
     }
     

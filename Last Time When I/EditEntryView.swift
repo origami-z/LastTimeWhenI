@@ -16,7 +16,7 @@ struct EditEntryView : View {
     var sourceEntry: Entry
     
     @State var name: String
-    @State var showCaptureImageView: Bool = false
+    @State var showImagePicker: Bool = false
     @State var image: UIImage?
     
     var imageToDisplay: Image? {
@@ -36,7 +36,7 @@ struct EditEntryView : View {
                     TextField("Name", text: $name)
                     
                     Button(action: {
-                        self.showCaptureImageView.toggle()
+                        self.showImagePicker.toggle()
                     }) {
                         VStack(alignment: .center) {
                             imageToDisplay?.resizable()
@@ -62,8 +62,8 @@ struct EditEntryView : View {
                 }
             )
         }
-        .sheet(isPresented: $showCaptureImageView) {
-            CaptureImageView(isShown: self.$showCaptureImageView, image: self.$image)
+        .sheet(isPresented: $showImagePicker) {
+            ImagePicker(image: self.$image, sourceType: .photoLibrary)
         }
     }
     
