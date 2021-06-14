@@ -13,7 +13,7 @@ struct EntryDetailView: View {
     
     @State var showEditView = false
     
-    var entry: Entry
+    @ObservedObject var entry: Entry
     
     var body: some View {
         VStack(alignment: .leading) {
