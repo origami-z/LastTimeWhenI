@@ -63,10 +63,10 @@ extension Entry {
 }
 
 extension Entry {
-    static func create(in managedObjectContext: NSManagedObjectContext, name: String, image: Data, events: [Event]? ){
+    static func create(in managedObjectContext: NSManagedObjectContext, name: String, image: Data?, events: [Event]? ){
         let newEntry = self.init(context: managedObjectContext)
         newEntry.name = name
-        newEntry.image = image
+        newEntry.image = image// ?? (UIImage(named: "Camera")?.pngData())!
         
         newEntry.lastUpdateTime = events?.first?.timestamp
         

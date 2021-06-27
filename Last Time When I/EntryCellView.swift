@@ -33,10 +33,11 @@ struct EntryCellView: View {
 struct EntryCellView_Previews: PreviewProvider {
     static var previews: some View {
         
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let context = PersistenceController.preview.container.viewContext
                 
         //        let event = Event.create(in: context, time: Date())
-                let event = Event.init(context: context)
+        let event = Event.init(context: context)
+        
         event.timestamp = Date().addingTimeInterval(-15000)
                 
                 let entry = Entry.init(context: context)
