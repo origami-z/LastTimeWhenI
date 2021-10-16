@@ -10,10 +10,9 @@ import SwiftUI
 
 struct EntryDetailView: View {
     @Environment(\.managedObjectContext) var viewContext
+    @Environment(\.editMode) var editMode
     
-    @State var showDuplicateView = false
-    
-    var entry: Entry
+    @ObservedObject var entry: Entry
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -21,28 +20,30 @@ struct EntryDetailView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 200)
-                //                .scaledToFit()
                 .cornerRadius(8)
-                //            Text("\(entry.wrappedName)")
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, alignment: .center)
             
             EntryDetailHistoryListView(entry: self.entry)
-            
-            Spacer()
-            
-            Button(action: {
-                self.showDuplicateView.toggle()
-            }) {
-                Text("Duplicate Entry")
-            }.sheet(isPresented: $showDuplicateView) {
-                DuplicateEntryView(sourceEntry: self.entry)
-                    .environment(\.managedObjectContext, self.viewContext)
+                .environment(\.editMode, Binding.constant(.inactive))
+        }
+        .navigationTitle(Text(entry.wrappedName))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                 EditButton()
             }
             .padding()
         }
-        .navigationBarTitle(
-            Text(entry.wrappedName),
-            displayMode: .inline
+        .sheet(isPresented: show(editMode)) {
+            EditEntryView(entry: self.entry)
+                .environment(\.managedObjectContext, self.viewContext)
+        }
+    }
+    
+    func show(_ value: Binding<EditMode>?) -> Binding<Bool> {
+        Binding<Bool>(
+            get: { value?.wrappedValue == .active  },
+            set: { value?.wrappedValue = $0 ? .active : .inactive }
         )
     }
 }
@@ -67,8 +68,8 @@ struct EntryDetailHistoryListView: View {
                 
                 Button(
                     action: {
-                        self.entry.newEvent(in: self.viewContext)
-                    }
+                    self.entry.newEvent(in: self.viewContext)
+                }
                 ) {
                     Image(systemName: "plus")
                 }
@@ -98,37 +99,6 @@ struct EntryDetailHistoryListView: View {
     }
 }
 
-struct FooSheet: View {
-    @Binding var isSheetShown: Bool
-    init(isShown: Binding<Bool>) {
-        _isSheetShown = isShown
-    }
-    var body: some View {
-        
-        NavigationView {
-            Button(action: {
-                isSheetShown = false
-            }, label: {
-                Text("Hide Sheet")
-            })
-            .navigationBarTitle(Text("Update Time"), displayMode: .inline)
-            .navigationBarItems(
-                leading: Button(action: {
-                    print("Dismissing sheet view...")
-                    self.isSheetShown = false
-                }) {
-                    Text("Cancel").bold()
-                },
-                trailing: Button(action: {
-                    print("Dismissing sheet view...")
-                    self.isSheetShown = false
-                }) {
-                    Text("Done").bold()
-                })
-        }
-    }
-}
-
 struct EntryDetailView_Previews: PreviewProvider {
     static var previews: some View {
         
@@ -145,7 +115,6 @@ struct EntryDetailView_Previews: PreviewProvider {
             entry.addToEvents(event)
         }
         
-        return
-            NavigationView {EntryDetailView(entry: entry)}.environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        return NavigationView {EntryDetailView(entry: entry)}.environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
