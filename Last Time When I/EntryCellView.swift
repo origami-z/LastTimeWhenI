@@ -22,8 +22,8 @@ struct EntryCellView: View {
             VStack(alignment: .leading) {
                 Text(entry.wrappedName)
                     .font(.headline)
-                if (entry.sortedEvents.first != nil) {
-                    Text(entry.sortedEvents.first!.relativeDateTime)
+                if ((entry.lastUpdateTime) != nil) {
+                    Text(entry.lastUpdateTime!.relativeToNow())
                 }
             }
         }

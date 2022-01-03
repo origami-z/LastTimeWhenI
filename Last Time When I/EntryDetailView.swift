@@ -32,7 +32,6 @@ struct EntryDetailView: View {
             ToolbarItem(placement: .primaryAction) {
                  EditButton()
             }
-            .padding()
         }
         .sheet(isPresented: show(editMode)) {
             EditEntryView(entry: self.entry)
