@@ -15,7 +15,7 @@ struct EntryListView: View {
     
     var body: some View {
         NavigationView {
-            MasterView()
+            ReorderableEntryListView()
                 .navigationTitle(Text("Last Time"))
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar {
@@ -53,7 +53,7 @@ private let sorts = [(
     descriptors: [SortDescriptor(\Entry.name, order: .reverse)]
 ),]
 
-struct MasterView: View {
+struct ReorderableEntryListView: View {
     @FetchRequest(
         sortDescriptors: [
             SortDescriptor(\Entry.lastUpdateTime, order: .reverse),

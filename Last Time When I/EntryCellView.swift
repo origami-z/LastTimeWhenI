@@ -42,7 +42,7 @@ struct EntryCellView_Previews: PreviewProvider {
                 
                 let entry = Entry.init(context: context)
                 entry.name = "Entry name"
-                entry.image = (UIImage(named: "Camera")?.pngData())
+                entry.image = (UIImage(named: "Camera")?.jpegData(compressionQuality: 1))
                 entry.addToEvents(event)
                 
         return EntryCellView(entry: entry) // .environment(\.managedObjectContext, context)

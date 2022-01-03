@@ -20,11 +20,6 @@ struct PersistenceController {
             event.timestamp = Date().addingTimeInterval(TimeInterval(index * -30000 - 2500 ))
             
             Entry.create(in: viewContext, name: "Hello World \(index)", image: nil, events: [event])
-            
-            //        let entry = Entry.init(context: context)
-            //        entry.name = "Hello World \(Int.random(in: 0..<10))"
-            //        entry.image = (UIImage(named: "Camera")?.pngData())
-            //        entry.addToEvents(event)
         }
         do {
             try viewContext.save()

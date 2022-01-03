@@ -86,7 +86,7 @@ struct NewEntryView: View {
         
         let entryImage = self.image ?? UIImage(named: "Camera")!
         
-        Entry.create(in: self.viewContext, name: self.name, image: entryImage.pngData()!, events: [newEvent])
+        Entry.create(in: self.viewContext, name: self.name, image: entryImage.jpegData(compressionQuality: 1)!, events: [newEvent])
         
         self.presentationMode.wrappedValue.dismiss()
     }

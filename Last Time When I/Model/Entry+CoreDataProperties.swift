@@ -65,7 +65,7 @@ extension Entry {
     static func create(in managedObjectContext: NSManagedObjectContext, name: String, image: Data?, events: [Event]? ){
         let newEntry = self.init(context: managedObjectContext)
         newEntry.name = name
-        newEntry.image = image// ?? (UIImage(named: "Camera")?.pngData())!
+        newEntry.image = image
         
         newEntry.lastUpdateTime = events?.first?.timestamp
         
@@ -102,10 +102,28 @@ extension Entry {
     
     public func update(name: String, image: UIImage, in managedObjectContext: NSManagedObjectContext ) {
         self.name = name
-        self.image = image.pngData()
+        self.image = image.jpegData(compressionQuality: 1)
         
         do {
             try  managedObjectContext.save()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
+    
+    public func resaveImage(in managedObjectContext: NSManagedObjectContext ) {
+        guard let uiImage = UIImage(data: image!) else {
+            print("uiImage can't be converted")
+            return
+        }
+        self.image = uiImage.jpegData(compressionQuality: 1)
+        
+        do {
+            try  managedObjectContext.save()
+            print("JPEG converted for \(self.wrappedName)")
         } catch {
             // Replace this implementation with code to handle the error appropriately.
             // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.

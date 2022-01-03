@@ -106,7 +106,7 @@ struct EntryDetailView_Previews: PreviewProvider {
         let entry = Entry.init(context: context)
         
         entry.name = "Entry name 10"
-        entry.image = (UIImage(named: "Camera")?.pngData())
+        entry.image = (UIImage(named: "Camera")?.jpegData(compressionQuality: 1))
         
         for i in 0..<10 {
             let event = Event.init(context: context)

@@ -61,35 +61,3 @@ struct TimeEditorView: View {
         }
     }
 }
-
-//struct TimeEditorView_Previews: PreviewProvider {
-//
-//    @State var showTimeEditorSheet: Bool = true
-//
-//    static var previews: some View {
-//
-//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-//
-//        let entry = Entry.init(context: context)
-//        entry.name = "Entry name \(Int.random(in: 1..<10))"
-//        entry.image = (UIImage(named: "Camera")?.pngData())
-//
-//        //        let event = Event.init(context: context)
-//        //        event.timestamp = Date()
-//        //        entry.addToEvents(event)
-//        //
-//        //        let event2 = Event.init(context: context)
-//        //        event2.timestamp = Date() + 153 * 60 * 60
-//        //        entry.addToEvents(event2)
-//
-//        let event = Event.init(context: context)
-//        event.timestamp = Date() +  TimeInterval(153 * 60 * 60 * 0)
-//        entry.addToEvents(event)
-//
-//        return
-//            Group {
-//                TimeEditorView(isShown: true, event: event)
-//                    .environment(\.managedObjectContext, context)
-//            }
-//    }
-//}
