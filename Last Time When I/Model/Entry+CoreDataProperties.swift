@@ -11,7 +11,6 @@ import Foundation
 import CoreData
 import SwiftUI
 
-
 extension Entry {
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Entry> {

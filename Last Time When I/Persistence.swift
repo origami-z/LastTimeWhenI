@@ -15,7 +15,7 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         
-        for index in 0..<10 {
+        for index in 0..<20 {
             let event = Event.init(context: viewContext)
             event.timestamp = Date().addingTimeInterval(TimeInterval(index * -30000 - 2500 ))
             
