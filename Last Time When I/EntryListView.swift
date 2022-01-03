@@ -8,37 +8,6 @@
 
 import SwiftUI
 
-struct EntryListView: View {
-    @Environment(\.managedObjectContext) var viewContext
-    
-    @State private var showingNewEntry = false
-    
-    var body: some View {
-        NavigationView {
-            ReorderableEntryListView()
-                .navigationTitle(Text("Last Time"))
-                .navigationBarTitleDisplayMode(.large)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(
-                            action: {
-                            self.showingNewEntry.toggle()
-                        }
-                        ) {
-                            Image(systemName: "plus")
-                        }
-                    }
-                }
-            Text("Detail view content goes here")
-                .navigationBarTitle(Text("Detail"))
-        }
-        .navigationViewStyle(DoubleColumnNavigationViewStyle())
-        .sheet(isPresented: $showingNewEntry) {
-            NewEntryView().environment(\.managedObjectContext, self.viewContext)
-        }
-    }
-}
-
 private let sorts = [(
     name: "Update Time",
     descriptors: [SortDescriptor(\Entry.lastUpdateTime, order: .reverse)]
@@ -53,7 +22,9 @@ private let sorts = [(
     descriptors: [SortDescriptor(\Entry.name, order: .reverse)]
 ),]
 
-struct ReorderableEntryListView: View {
+struct EntryListView: View {
+    @Environment(\.managedObjectContext) var viewContext
+    
     @FetchRequest(
         sortDescriptors: [
             SortDescriptor(\Entry.lastUpdateTime, order: .reverse),
@@ -63,7 +34,6 @@ struct ReorderableEntryListView: View {
     var entries: FetchedResults<Entry>
     
     @State private var selectedSort = SelectedSort()
-    
     
     @State private var searchText = ""
     var query: Binding<String> {
@@ -77,44 +47,62 @@ struct ReorderableEntryListView: View {
         }
     }
     
-    @Environment(\.managedObjectContext)
-    var viewContext
+    @State private var showingNewEntry = false
     
     var body: some View {
-        List {
-            ForEach(entries, id: \.self) { entry in
-                NavigationLink(
-                    destination: EntryDetailView(entry: entry)
-                ) {
-                    EntryCellView(entry: entry)
-                }.swipeActions(edge: .leading, allowsFullSwipe: true) {
-                    Button {
-                        addEventNow(for: entry)
-                    } label: {
-                        Image(systemName: "plus.square.on.square")
-                            .accessibility(label: Text("Add Event Now"))
-                        
+        NavigationView {
+            List {
+                ForEach(entries, id: \.self) { entry in
+                    NavigationLink(
+                        destination: EntryDetailView(entry: entry)
+                    ) {
+                        EntryCellView(entry: entry)
+                    }.swipeActions(edge: .leading, allowsFullSwipe: true) {
+                        Button {
+                            addEventNow(for: entry)
+                        } label: {
+                            Image(systemName: "plus.square.on.square")
+                                .accessibility(label: Text("Add Event Now"))
+                            
+                        }
+                        .tint(.blue)
                     }
-                    .tint(.blue)
-                }
-                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                    Button(role: .destructive) {
-                        delete(entry: entry)
-                    } label: {
-                        Text("Delete")
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        Button(role: .destructive) {
+                            delete(entry: entry)
+                        } label: {
+                            Text("Delete")
+                        }
                     }
                 }
             }
+            .searchable(text: query)
+            .navigationTitle(Text("Last Time"))
+                .navigationBarTitleDisplayMode(.large)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(
+                            action: {
+                            self.showingNewEntry.toggle()
+                        }
+                        ) {
+                            Image(systemName: "plus")
+                        }
+                    }
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        SortMenu(selection: $selectedSort)
+                            .onChange(of: selectedSort) { _ in
+                                let sortBy = sorts[selectedSort.index]
+                                entries.sortDescriptors = sortBy.descriptors
+                            }
+                    }
+                }
+            Text("Detail view content goes here")
+                .navigationBarTitle(Text("Detail"))
         }
-        .searchable(text: query)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                SortMenu(selection: $selectedSort)
-                    .onChange(of: selectedSort) { _ in
-                        let sortBy = sorts[selectedSort.index]
-                        entries.sortDescriptors = sortBy.descriptors
-                    }
-            }
+        .navigationViewStyle(DoubleColumnNavigationViewStyle())
+        .sheet(isPresented: $showingNewEntry) {
+            NewEntryView().environment(\.managedObjectContext, self.viewContext)
         }
     }
     
@@ -158,7 +146,7 @@ struct ReorderableEntryListView: View {
                     }
                 }
             } label: {
-                Label("More", systemImage: "ellipsis.circle")
+                Label("More", systemImage: "arrow.up.arrow.down")
             }
             .pickerStyle(InlinePickerStyle())
         }
