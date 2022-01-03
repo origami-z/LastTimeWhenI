@@ -166,6 +166,9 @@ struct EntryListView: View {
 
 struct EntryListView_Previews: PreviewProvider {
     static var previews: some View {
-        EntryListView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ForEach(ColorScheme.allCases, id: \.self) {
+            
+            EntryListView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext).preferredColorScheme($0)
+        }
     }
 }
